@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
 
     if(!user) { 
-        return new NextResponse("Unathorized", {status: 401});
+      return new NextResponse("Unathorized", {status: 401});
     }
 
     const userID = await getClientId(user.userId);
@@ -144,12 +144,10 @@ export async function POST(request: Request) {
       
 
 
-    }catch (error) {
+    } catch (error) {
         console.log("[SERVER_POST]", error);
         return new NextResponse("Internal Error", {status:500});
     }
-
-  
   }
 
 export async function DELETE(request: NextRequest) {
