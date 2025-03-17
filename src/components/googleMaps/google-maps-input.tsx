@@ -23,14 +23,10 @@ const GoogleMapsInput = ({type}:{type:string}) => {
     const {source, setSource} = contextSource;
     const {destination, setDestination} = contextDestination;
 
-
-    // useEffect para renderizar el texto de los placeholders, dependiendo del valor de la prop 'type'
-    useEffect(() => {
-        type === 'source' ?
+    type === 'source' ?
         setPlaceholder('Pickup Location') :
         setPlaceholder('Dropoff Location');
-    }, []);
-
+        
     // Función que nos va a regresar la longitud y latitud de los lugares de Google Maps
     const getLatAndLng = ({place, type}: {place:SingleValue<Option>, type:string}) => {
         // Se guarda el ID del lugar seleccionado
