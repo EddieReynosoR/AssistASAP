@@ -9,6 +9,7 @@ import { type ClientesMecanicos } from "@/types/types";
 import { type Dispatch, SetStateAction } from "react";
 
 interface UsuariosOrden {
+    id: string;
     usuario: ClientesMecanicos;
     usuarios: ClientesMecanicos[];
     usuarioAsignado: ClientesMecanicos | null;
@@ -16,10 +17,10 @@ interface UsuariosOrden {
 }
 
 
-export const UsuariosOrden = ({usuario, usuarios, usuarioAsignado, cambiarUsuarioAsignado}:UsuariosOrden) => {
+export const UsuariosOrden = ({id, usuario, usuarios, usuarioAsignado, cambiarUsuarioAsignado}:UsuariosOrden) => {
 
     return (
-        <div className="flex items-center justify-between space-x-4 mt-5 mb-5">
+        <div key={id} className="flex items-center justify-between space-x-4 mt-5 mb-5">
             <div className="flex items-center space-x-4">
                 <img
                 src={usuario.profile.imageUrl}

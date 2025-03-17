@@ -9,7 +9,6 @@ import { CartProvider } from "@/contexts/contextCarrito";
 
 import { Toaster } from "@/components/ui/toaster";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function RootLayout({
         <html lang="en">
           <body className="">
             <GoogleMapsLayout>
-              {/*Main header para manejar las rutas*/}
               <MainHeader content={children} />
               <Toaster/>
             </GoogleMapsLayout>

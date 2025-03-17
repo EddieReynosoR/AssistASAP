@@ -55,7 +55,14 @@ type Proveedor = {
     Empresa: string
 }
 
+const router = useRouter();
+const {toast} = useToast();
 
+const [open, setOpen] = useState(false);
+
+const { cant } = useCantidad();
+
+const [openAdvertencia, setOpenAdvertencia] = useState(false);
 
 export const columns: ColumnDef<ProductosEnOrden>[] = [
     {
@@ -139,16 +146,7 @@ export const columns: ColumnDef<ProductosEnOrden>[] = [
     {
         id: "actions",
         header: "Editar",
-        cell: ({ row }) => {
-
-            const router = useRouter();
-            const {toast} = useToast();
-
-            const [open, setOpen] = useState(false);
-
-            const { cant } = useCantidad();
-
-            const [openAdvertencia, setOpenAdvertencia] = useState(false);
+        cell: ({ row }) => {           
 
             let cantidad = Number(row.original.cantidad);
 
@@ -246,9 +244,9 @@ export const columns: ColumnDef<ProductosEnOrden>[] = [
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Editar "{row.original.producto.name}"</DialogTitle>
+                        <DialogTitle>Editar {row.original.producto.name}</DialogTitle>
                         <DialogDescription>
-                            Edita la cantidad del producto o eliminalo del pedido. Da click en "Guardar" cuando hayas editado la cantidad del producto.
+                            Edita la cantidad del producto o eliminalo del pedido. Da click en Guardar cuando hayas editado la cantidad del producto.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">

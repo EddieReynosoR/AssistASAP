@@ -22,8 +22,6 @@ import { type Categoria, Proveedor } from "@prisma/client";
 import { UsuariosOrden } from "@/components/ordenes/usuariosOrden";
 import { SearchUsuario } from "@/components/ordenes/buscarUsuario";
 
-
-
 export default function AgregarPedido() {
     
     const { cart, setCart } = useCart();
@@ -76,17 +74,12 @@ export default function AgregarPedido() {
         });
 
         if(res && res.data){
-            console.log(res.data);
 
-            let addAttributeArray = res.data as ClientesMecanicos[]
-
-            console.log(addAttributeArray);
+            let addAttributeArray = res.data as ClientesMecanicos[];
 
             addAttributeArray.forEach((element) => {
                 element.isSelected = false;
             });
-
-            console.log(addAttributeArray);
 
 
             setClientes(addAttributeArray);
@@ -102,8 +95,6 @@ export default function AgregarPedido() {
         });
 
         if(res && res.data){
-            console.log(res.data);
-
             let addAttributeArray = res.data as ClientesMecanicos[]
 
             addAttributeArray.forEach((element) => {
@@ -112,8 +103,6 @@ export default function AgregarPedido() {
 
             setMecanicos(addAttributeArray);
             setResultadosMecanico(addAttributeArray);
-
-            console.log(mecanicos);
         }
     }
 
@@ -123,7 +112,6 @@ export default function AgregarPedido() {
           });
       
         if (res && res.data) {
-            console.log(res.data);
             setProductos(res.data);
             setResultados(res.data);
         }
@@ -135,7 +123,6 @@ export default function AgregarPedido() {
         });
     
         if (res && res.data) {
-          console.log(res.data);
           setCategorias(res.data);
         }
       }
@@ -146,7 +133,6 @@ export default function AgregarPedido() {
         });
 
         if (res && res.data) {
-            console.log(res.data);
             setProveedores(res.data);
         }
     }
@@ -161,8 +147,6 @@ export default function AgregarPedido() {
         obtenerCategorias();
         obtenerProveedores();
 
-        console.log(clientes);
-
     }, []);
 
     useEffect(()=>{
@@ -170,8 +154,6 @@ export default function AgregarPedido() {
         {
           setResultados(productos);
         }
-    
-        console.log(proveedor, categoria);
     
         if(categoria !== "" && proveedor !== ""){
           setResultados(prevState => prevState.filter((producto) => producto.name.toLowerCase().includes(busqueda.toLowerCase()) && producto.categoria.nombre === categoria && producto.provedor.Empresa === proveedor));
@@ -352,8 +334,8 @@ export default function AgregarPedido() {
 
                 <SearchUsuario onChange={handleClienteSearch} />
 
-                {resultadosCliente.map((client) => (
-                    <UsuariosOrden usuario={client} usuarios={clientes} usuarioAsignado={cliente} cambiarUsuarioAsignado={setCliente} />
+                {resultadosCliente.map((client, index) => (
+                    <UsuariosOrden key={index} id={client.id} usuario={client} usuarios={clientes} usuarioAsignado={cliente} cambiarUsuarioAsignado={setCliente} />
                 ))}
                 {cliente && <AsignarCliente cliente={cliente}/>}
 
@@ -365,8 +347,8 @@ export default function AgregarPedido() {
 
                 <SearchUsuario onChange={handleMecanicoSearch}/>
 
-                {resultadosMecanico.map((mechanic) => (
-                    <UsuariosOrden usuario={mechanic} usuarios={mecanicos} usuarioAsignado={mecanico} cambiarUsuarioAsignado={setMecanico} />
+                {resultadosMecanico.map((mechanic, index) => (
+                    <UsuariosOrden key={index} id={mechanic.id} usuario={mechanic} usuarios={mecanicos} usuarioAsignado={mecanico} cambiarUsuarioAsignado={setMecanico} />
                 ))}
                 {mecanico && <AsignarMecanico mecanico={mecanico}/>}
 

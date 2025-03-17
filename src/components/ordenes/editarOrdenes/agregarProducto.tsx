@@ -185,8 +185,8 @@ export const AgregarProductoOrden = ({children, idOrden}: AgregarProductoProps) 
 
                 <ScrollArea className="mx-auto max-h-44 min-h-44 border rounded-md w-10/12 h-30 mb-6 overflow-y-auto">
                 {
-                    resultados.map((producto) => (
-                        <ProductsOrden idOrden={idOrden} producto={producto} setOpen={setOpen} routerExterno={router}/>
+                    resultados.map((producto, index) => (
+                        <ProductsOrden key={index} idOrden={idOrden} producto={producto} setOpen={setOpen} routerExterno={router}/>
                     ))
                 }
                 </ScrollArea>

@@ -62,14 +62,6 @@ export default function MainHeader({ content }: { content: ReactNode }) {
 
   return (
     <>
-      {/*Imagen de fondo*/}
-      <Image
-        className="absolute w-full top-0 left-0 z-[-1]"
-        src={MapImage}
-        alt="Mapa Iamgen"
-      />
-
-      {/*Componente de navbar y dashboard*/}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -302,8 +294,7 @@ export default function MainHeader({ content }: { content: ReactNode }) {
                   <span className="sr-only">View Bag</span>
                   <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
                 </Link>
-
-                {/* Separator */}
+                
                 <div
                   className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                   aria-hidden="true"

@@ -27,6 +27,8 @@ type Proveedor = {
     Empresa: string
 }
 
+const { removeFromCart, insertarUno, removerUno } = useCart();
+
 export const columns: ColumnDef<ProductoCarrito>[] = [
     {
         id: "select",
@@ -98,7 +100,6 @@ export const columns: ColumnDef<ProductoCarrito>[] = [
         id: "cambiarCantidad",
         header: () => <div className="text-center">+/-</div>,
         cell: ({ row }) => {
-            const {insertarUno, removerUno} = useCart();
 
         
             return <div className="text-center font-medium">
@@ -142,9 +143,7 @@ export const columns: ColumnDef<ProductoCarrito>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
-            const producto = row.original
-
-            const { removeFromCart } = useCart();
+            const producto = row.original;
        
             return (
               <DropdownMenu>

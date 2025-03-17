@@ -22,7 +22,7 @@ export const EditarCantidadDialog = ({children}:{children:React.ReactNode}) => {
                 <DialogHeader>
                   <DialogTitle>Editar cantidad de producto(s)</DialogTitle>
                   <DialogDescription>
-                    Cambia la cantidad seleccionada de tus productos, haz click en "Guardar" cuando termines.
+                    Cambia la cantidad seleccionada de tus productos, haz click en Guardar cuando termines.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
