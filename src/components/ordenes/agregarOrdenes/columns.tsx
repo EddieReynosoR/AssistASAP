@@ -27,140 +27,142 @@ type Proveedor = {
     Empresa: string
 }
 
-const { removeFromCart, insertarUno, removerUno } = useCart();
+export const useColumns = (): ColumnDef<ProductoCarrito>[] => {
+    const { removeFromCart, insertarUno, removerUno } = useCart();
 
-export const columns: ColumnDef<ProductoCarrito>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-        <Checkbox
-            checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Select all"
-        />
-        ),
-        cell: ({ row }) => (
-        <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-        />
-        ),
-    },
-    {
-        accessorKey: "id",
-        header: () => <div className="text-center">ID</div>,
-        cell: ({row}) => {
-            return <div className="text-center font-medium">{row.getValue("id")}</div>
-
-        }
-    },
-    {
-        accessorKey: "imageUrl",
-        header: "Imagen",
-        cell: ({row}) => {
-            return <img
-            src={row.getValue("imageUrl")}
-            alt={row.getValue("name")}
-            className="h-24 w-24 rounded-md object-cover object-center sm:h-14 sm:w-14"
+    return [
+        {
+            id: "select",
+            header: ({ table }) => (
+            <Checkbox
+                checked={
+                table.getIsAllPageRowsSelected() ||
+                (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
             />
-        }
-    },
-    {
-        accessorKey: "name",
-        header: () => <div className="text-center">Nombre</div>,
-        cell: ({row}) => {return <div className="text-center">{row.original.name}</div>}
-    },
-    {
-        accessorKey: "price",
-        header: () => <div className="text-right">Precio</div>,
-        cell: ({ row }) => {
-        const precio = parseFloat(row.getValue("price"))
-        const formatted = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-        }).format(precio)
+            ),
+            cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+            ),
+        },
+        {
+            accessorKey: "id",
+            header: () => <div className="text-center">ID</div>,
+            cell: ({row}) => {
+                return <div className="text-center font-medium">{row.getValue("id")}</div>
     
-        return <div className="text-right">{formatted}</div>
+            }
         },
-    },
-    {
-        accessorKey: "cantidad",
-        header: () => <div className="text-right">Cantidad</div>,
-        cell: ({ row }) => {
-        const cantidad = row.getValue("cantidad") as string;
-    
-        return <div className="text-center font-medium">{cantidad}</div>
+        {
+            accessorKey: "imageUrl",
+            header: "Imagen",
+            cell: ({row}) => {
+                return <img
+                src={row.getValue("imageUrl")}
+                alt={row.getValue("name")}
+                className="h-24 w-24 rounded-md object-cover object-center sm:h-14 sm:w-14"
+                />
+            }
         },
-    },
-    {
-        id: "cambiarCantidad",
-        header: () => <div className="text-center">+/-</div>,
-        cell: ({ row }) => {
-
-        
-            return <div className="text-center font-medium">
-                    <Button className="m-1 w-[25px] h-[25px]" onClick={() => insertarUno(row.original.id)}>+</Button>
-                    <Button className="m-1 w-[25px] h-[25px]" onClick={() => removerUno(row.original.id)}>-</Button>
-                </div>
-            
+        {
+            accessorKey: "name",
+            header: () => <div className="text-center">Nombre</div>,
+            cell: ({row}) => {return <div className="text-center">{row.original.name}</div>}
         },
-    },
-    {
-        accessorKey: "categoria",
-        header: "Categoría",
-        cell: ({row}) => {
-            const nombreCategoria = row.getValue("categoria") as Categoria;
-            return nombreCategoria.nombre;
-        }
-    },
-    {
-        accessorKey: "provedor",
-        header: "Proveedor",
-        cell: ({row}) => {
-            const empresaProveedor = row.getValue("provedor") as Proveedor;
-            return empresaProveedor.Empresa;
-        }
-    },
-    {
-        accessorKey: "subtotal",
-        header: "Subtotal",
-        cell: ({row}) => {  
-            const precioSubtotal = (parseFloat(row.original.price) * parseFloat(row.original.cantidad as string)).toFixed(2);   
-
+        {
+            accessorKey: "price",
+            header: () => <div className="text-right">Precio</div>,
+            cell: ({ row }) => {
+            const precio = parseFloat(row.getValue("price"))
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
-            }).format(precioSubtotal)
+            }).format(precio)
         
-            return <div className="text-right font-medium">{formatted}</div>
+            return <div className="text-right">{formatted}</div>
+            },
+        },
+        {
+            accessorKey: "cantidad",
+            header: () => <div className="text-right">Cantidad</div>,
+            cell: ({ row }) => {
+            const cantidad = row.getValue("cantidad") as string;
+        
+            return <div className="text-center font-medium">{cantidad}</div>
+            },
+        },
+        {
+            id: "cambiarCantidad",
+            header: () => <div className="text-center">+/-</div>,
+            cell: ({ row }) => {
+    
+            
+                return <div className="text-center font-medium">
+                        <Button className="m-1 w-[25px] h-[25px]" onClick={() => insertarUno(row.original.id)}>+</Button>
+                        <Button className="m-1 w-[25px] h-[25px]" onClick={() => removerUno(row.original.id)}>-</Button>
+                    </div>
+                
+            },
+        },
+        {
+            accessorKey: "categoria",
+            header: "Categoría",
+            cell: ({row}) => {
+                const nombreCategoria = row.getValue("categoria") as Categoria;
+                return nombreCategoria.nombre;
+            }
+        },
+        {
+            accessorKey: "provedor",
+            header: "Proveedor",
+            cell: ({row}) => {
+                const empresaProveedor = row.getValue("provedor") as Proveedor;
+                return empresaProveedor.Empresa;
+            }
+        },
+        {
+            accessorKey: "subtotal",
+            header: "Subtotal",
+            cell: ({row}) => {  
+                const precioSubtotal = (parseFloat(row.original.price) * parseFloat(row.original.cantidad as string)).toFixed(2);   
+    
+                const formatted = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                }).format(precioSubtotal)
+            
+                return <div className="text-right font-medium">{formatted}</div>
+            }
+            
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                const producto = row.original;
+           
+                return (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Abrir menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => {
+                        removeFromCart(producto.id);
+                      }}>Eliminar</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )
+              },
         }
-        
-    },
-    {
-        id: "actions",
-        cell: ({ row }) => {
-            const producto = row.original;
-       
-            return (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Abrir menu</span>
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                  <DropdownMenuItem onClick={() => {
-                    removeFromCart(producto.id);
-                  }}>Eliminar</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )
-          },
-    }
-]
+    ];
+}

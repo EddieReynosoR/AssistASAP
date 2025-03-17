@@ -13,13 +13,6 @@ const GoogleMapsSearchInputs = () => {
     const { source, setSource } = contextSource;
     const { destination, setDestination } = contextDestination;
 
-    useEffect(() => {
-        if (source) {
-            console.log(source);
-            console.log(destination);
-        }
-    }, [source, destination]);
-
     return (
         <div className="p-2 md:pd-5 border-[2px] rounded-xl">
             <p className="text-[20px] font-bold">Get a ride</p>

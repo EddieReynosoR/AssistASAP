@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { type Orden } from "@/utils/Queries/ordersQueries";
 
 import { DataTableOrden } from "./editarOrdenes/data-table";
-import {columns} from "./editarOrdenes/columns";
+import { useColumns } from "./editarOrdenes/columns";
 
 import {
   AlertDialog,
@@ -38,8 +38,7 @@ import { notFound } from "next/navigation";
 import { AgregarProductoOrden } from "./editarOrdenes/agregarProducto";
 
 export const DatosOrden = ({datos}: {datos:Orden}) => {
-
-
+  const columns = useColumns();
   const route = useRouter();
   const {toast} = useToast();
 

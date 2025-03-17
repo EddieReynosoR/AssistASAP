@@ -10,8 +10,6 @@ const GoogleMapsMapSection = () => {
     const contextSource = useContext(SourceContext);
     const contextDestination = useContext(DestinationContext);
 
-    if(!contextSource || !contextDestination) return;
-
     // Obtenemos las coordenadas desde los contextos
     const {source} = contextSource;
     const {destination} = contextDestination;

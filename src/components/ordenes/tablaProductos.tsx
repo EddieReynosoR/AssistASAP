@@ -11,7 +11,7 @@ import { SearchProduct } from "@/components/products/componentesFiltrarProduct/s
 import { type ProductoCarrito } from "@/types/types";
 import { Categoria, Proveedor } from "@prisma/client";
 import { DataTableProductos } from "./agregarOrdenes/data-table";
-import { columns } from "./agregarOrdenes/columns";
+import { useColumns } from "./agregarOrdenes/columns";
 import { ProductsOrden } from "../products/productsOrden";
 
 interface SearchProductProps {
@@ -25,6 +25,7 @@ interface SearchProductProps {
 
 export const TablaProductos = ({productos, categorias, proveedores, onChangeCategoria, onChangeProveedor, onChangeProductoSearch} : SearchProductProps) => {
     const { cart, setCart, removeFromCart, insertarUno, removerUno } = useCart();
+    const columns = useColumns();
 
     type ProductosEnOrden = {
         productoID: string,
@@ -48,8 +49,8 @@ export const TablaProductos = ({productos, categorias, proveedores, onChangeCate
             
             <ScrollArea className="mx-auto max-h-44 min-h-44 border rounded-md w-10/12 h-30 mb-6 overflow-y-auto">
                 {
-                    productos.map((producto) => (
-                        <ProductsOrden {...producto} />
+                    productos.map((producto, index) => (
+                        <ProductsOrden key={index} {...producto} />
                     ))
                 }
             </ScrollArea>
