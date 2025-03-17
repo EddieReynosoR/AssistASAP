@@ -3,98 +3,101 @@ import { db } from "@/lib/db";
 import { checkTypeOfUser } from "@/utils/checkTypeOfUser";
 import { NextResponse } from "next/server";
 
-// Endpoint para agregar o eliminar miembros de un establecimiento
-export async function typeOfUserAPI(req: Request){
-    try{
-        // Checamos si hay un perfil de usuario
+// POST - Crear un establecimiento
+export async function POST(req: Request) {
+    try {
         const profile = await currentProfile();
 
-        if(!profile){
-            return new NextResponse("Unathorized", {status:401});
+        if (!profile) {
+            return new NextResponse("Unauthorized", { status: 401 });
         }
-        
-        // Checamos el tipo de usuario que es el usuario
+
         const typeOfUser = await checkTypeOfUser(profile);
 
-        if(!typeOfUser) {
-            return new NextResponse("User does not have a type", {status: 400});
+        if (typeOfUser !== "MECANICO") {
+            return new NextResponse("Invalid Input", { status: 400 });
         }
 
-        // Checamos que el que quiere insertar el establecimiento, sea un mecanico
-        if(typeOfUser === "MECANICO")
-        {
+        const { nombre, latitud, longitud, mecanicoID } = await req.json();
 
-            if(req.method === "POST")
-            {
-                // Obtenemos los datos a insertar en la base de datos
-                const {nombre, latitud, longitud, mecanicoID} = await req.json();         
-
-                
-                const establishment = await db.establecimiento.create({
-                    data: {
-                        nombre: nombre,
-                        latitude: latitud,
-                        longitude: longitud,
-                        // Al crear el establecimiento, le asignamos el valor de la llave foranea del mecanico dueño del establecimiento
-                        mecanico: {
-                            connect: {
-                                profileId: profile.id
-                            }
-                        },
-                        mecanicos: {
-                            create: {
-                                mecanicoID: mecanicoID
-                            }
-                        }
-                    }
-                });
-
-                return NextResponse.json(establishment);
-
-            }
-
-            if(req.method === "PUT") {
-                // Obtenemos los datos a insertar en la base de datos
-                const {nombre, latitud, longitud, id} = await req.json();         
-
-                
-                const establishment = await db.establecimiento.update({
-                    where: {
-                        id: id
+        const establishment = await db.establecimiento.create({
+            data: {
+                nombre,
+                latitude: latitud,
+                longitude: longitud,
+                mecanico: {
+                    connect: {
+                        profileId: profile.id,
                     },
-                    data: {
-                        
-                    }
-                });
+                },
+                mecanicos: {
+                    create: {
+                        mecanicoID,
+                    },
+                },
+            },
+        });
 
-                return NextResponse.json(establishment);
-                
-            }
+        return NextResponse.json(establishment);
+    } catch (error) {
+        console.error("[SERVER_POST]", error);
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
 
-            if(req.method === "DELETE")
-            {
-                // Obtenemos los datos a insertar en la base de datos
-                const {nombre, latitud, longitud, id} = await req.json();         
+// PUT - Actualizar un establecimiento
+export async function PUT(req: Request) {
+    try {
+        const profile = await currentProfile();
 
-                
-                const establishment = await db.establecimiento.delete({
-                    where: {
-                        id: id
-                    }
-                });
-
-                return NextResponse.json(establishment);
-                
-
-            }
-
-            return new NextResponse("Invalid Method", {status: 405});
+        if (!profile) {
+            return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        return new NextResponse("Invalid Input", {status: 400});
+        const typeOfUser = await checkTypeOfUser(profile);
 
-    }catch (error) {
-        console.log("[SERVER_POST]", error);
-        return new NextResponse("Internal Error", {status:500});
+        if (typeOfUser !== "MECANICO") {
+            return new NextResponse("Invalid Input", { status: 400 });
+        }
+
+        const { id, nombre, latitud, longitud } = await req.json();
+
+        const establishment = await db.establecimiento.update({
+            where: { id },
+            data: { nombre, latitude: latitud, longitude: longitud },
+        });
+
+        return NextResponse.json(establishment);
+    } catch (error) {
+        console.error("[SERVER_PUT]", error);
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+
+// DELETE - Eliminar un establecimiento
+export async function DELETE(req: Request) {
+    try {
+        const profile = await currentProfile();
+
+        if (!profile) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const typeOfUser = await checkTypeOfUser(profile);
+
+        if (typeOfUser !== "MECANICO") {
+            return new NextResponse("Invalid Input", { status: 400 });
+        }
+
+        const { id } = await req.json();
+
+        const establishment = await db.establecimiento.delete({
+            where: { id },
+        });
+
+        return NextResponse.json(establishment);
+    } catch (error) {
+        console.error("[SERVER_DELETE]", error);
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
