@@ -3,69 +3,66 @@ import { db } from "@/lib/db";
 import { checkTypeOfUser } from "@/utils/checkTypeOfUser";
 import { NextResponse } from "next/server";
 
-export async function mecanicoOrdenAPI(req: Request){
-    try{
-        // Checamos si hay un perfil de usuario
+// POST - Asignar mecánico a una orden de servicio
+export async function POST(req: Request) {
+    try {
         const profile = await currentProfile();
 
-        if(!profile){
-            return new NextResponse("Unathorized", {status:401});
+        if (!profile) {
+            return new NextResponse("Unauthorized", { status: 401 });
         }
-        
-        // Checamos el tipo de usuario que es el usuario
+
         const typeOfUser = await checkTypeOfUser(profile);
 
-        if(!typeOfUser) {
-            return new NextResponse("User does not have a type", {status: 400});
-        }
-        
-        // Un mecanico debe de atender una orden de servicio
-        if(typeOfUser === "MECANICO"){
-
-            if(req.method === "POST")
-            {
-                // Obtenemos los datos a insertar en la base de datos
-                const {ordenServicioID, mecanicoID} = await req.json();         
-
-                
-                const establishment = await db.ordenServicio.update({
-                    where: {
-                        id: ordenServicioID
-                    },
-                    data: {
-                        mecanicoID: mecanicoID,
-                    }
-                });
-
-                return NextResponse.json(establishment);
-                
-            }
-
-            if(req.method === "DELETE"){
-                // Obtenemos los datos a insertar en la base de datos
-                const {ordenServicioID} = await req.json();         
-
-                
-                const establishment = await db.ordenServicio.update({
-                    where: {
-                        id: ordenServicioID
-                    },
-                    data: {
-                        mecanicoID: null
-                    }
-                });
-
-                return NextResponse.json(establishment);
-                
-            }
-
-            return new NextResponse("Invalid Method", {status: 405});
+        if (typeOfUser !== "MECANICO") {
+            return new NextResponse("Invalid Input", { status: 400 });
         }
 
-        return new NextResponse("Invalid Input", {status: 400});
+        // Obtener datos del request
+        const { ordenServicioID, mecanicoID } = await req.json();
 
-    }catch (error) {
-        console.log("[SERVER_POST]", error);
-        return new NextResponse("Internal Error", {status:500});
+        // Actualizar la orden de servicio con el mecánico asignado
+        const ordenServicio = await db.ordenServicio.update({
+            where: { id: ordenServicioID },
+            data: { mecanicoID }
+        });
+
+        return NextResponse.json(ordenServicio);
+
+    } catch (error) {
+        console.error("[SERVER_POST]", error);
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+
+// DELETE - Desasignar mecánico de una orden de servicio
+export async function DELETE(req: Request) {
+    try {
+        const profile = await currentProfile();
+
+        if (!profile) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const typeOfUser = await checkTypeOfUser(profile);
+
+        if (typeOfUser !== "MECANICO") {
+            return new NextResponse("Invalid Input", { status: 400 });
+        }
+
+        // Obtener datos del request
+        const { ordenServicioID } = await req.json();
+
+        // Desasignar mecánico de la orden de servicio
+        const ordenServicio = await db.ordenServicio.update({
+            where: { id: ordenServicioID },
+            data: { mecanicoID: null }
+        });
+
+        return NextResponse.json(ordenServicio);
+
+    } catch (error) {
+        console.error("[SERVER_DELETE]", error);
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
