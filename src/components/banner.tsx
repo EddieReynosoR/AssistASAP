@@ -3,15 +3,15 @@ import MecanicoImg from "@/assets/mecanico.png";
 
 export default function Banner() {
   return (
-    <>
-      <div className="w-full h-full items-center bg-blue-300 rounded-xl flex">
-        <p className="font-bold text-white text-center text-4xl">
-           Servicios y productos de calidad
+    <div className="w-full flex justify-center">
+      <div className="w-full h-full items-center bg-secondary rounded-xl flex max-w-[1000px]">
+        <p className="font-bold text-white text-center text-4xl ml-3 w-full">
+           Productos de calidad
         </p>
-        <div className="bg-indigo-600 rounded-xl ml-auto">
+        <div className="bg-primary rounded-xl ml-auto">
           <Image src={MecanicoImg} alt="Foto de Mecanico" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

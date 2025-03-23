@@ -49,6 +49,7 @@ export async function GET(
 
 export async function POST(request: Request) {
   const res = await request.json();
+  
   const {
     name,
     description,
@@ -58,12 +59,13 @@ export async function POST(request: Request) {
     categoriaId,
     proveedorID,
   } = res;
+
   const slug = slugify(name, { lower: true });
   console.log("res", res);
   const price = parseFloat(priceString);
   const cantidad = parseInt(cantidadString);
 
-  const product = await prisma.product.create({
+  const product = await db.product.create({
     data: {
       name,
       description,
@@ -79,7 +81,6 @@ export async function POST(request: Request) {
     },
   });
 
-  redirect('/inventario')
   return NextResponse.json({ product });
 }
 

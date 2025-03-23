@@ -42,18 +42,18 @@ const navigation = [
     icon: WrenchScrewdriverIcon,
     current: false
   },
-  {
-    name: "Inventario",
-    href: "/inventario",
-    icon: ArchiveBoxIcon,
-    current: false,
-  },
-  {
-    name: "Ubicacion",
-    href: "/mapsTest",
-    icon: MapIcon,
-    current: false,
-  }
+  // {
+  //   name: "Inventario",
+  //   href: "/inventario",
+  //   icon: ArchiveBoxIcon,
+  //   current: false,
+  // },
+  // {
+  //   name: "Ubicacion",
+  //   href: "/mapsTest",
+  //   icon: MapIcon,
+  //   current: false,
+  // }
 ];
 
 export default function MainHeader({ content }: { content: ReactNode }) {
@@ -183,7 +183,7 @@ export default function MainHeader({ content }: { content: ReactNode }) {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-blue-500 px-6 pb-4">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <Image
                 className="h-8 w-auto"
@@ -201,8 +201,8 @@ export default function MainHeader({ content }: { content: ReactNode }) {
                           href={item.href}
                           className={`${
                             path.startsWith(item.href)
-                              ? "bg-blue-600 text-white"
-                              : "text-indigo-200 hover:text-white hover:bg-blue-600"
+                              ? "bg-selected text-white"
+                              : "text-indigo-200 hover:text-white hover:bg-selected"
                           }
                             group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold
                           `}
@@ -226,7 +226,7 @@ export default function MainHeader({ content }: { content: ReactNode }) {
 
 
                 <li className="mt-auto">
-                <a
+                {/* <a
                     href="/chatbot"
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-blue-600 hover:text-white"
                   >
@@ -245,7 +245,7 @@ export default function MainHeader({ content }: { content: ReactNode }) {
                       aria-hidden="true"
                     />
                     Settings
-                  </a>
+                  </a> */}
                 </li>
               </ul>
             </nav>

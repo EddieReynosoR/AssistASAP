@@ -23,14 +23,14 @@ export default async function Home() {
   return (
     <>
       <AsignarTipoUsuario idUsuario={profile?.id} mostrarDialog={hasTypeOfUser}/>
-      <div className="felx felx-col gap-8 ">
-        <div className="pb-8">
+      <div className="gap-8 flex flex-col items-center">
+        <div className="pb-8 min-w-[1000px]">
           <Banner />
         </div>
-        <div>
+        <div className="min-w-[800px] max-w-[1000px]">
           <Link className="font-bold text-4xl flex flex-row pb-4" href="/products">
-            <p>Products</p>
-            <p className="text-xl font-bold text-indigo-600 ml-auto pt-2">
+            <p>Productos</p>
+            <p className="text-xl font-bold text-primary ml-auto pt-2">
               Ver todo
             </p>
           </Link>
